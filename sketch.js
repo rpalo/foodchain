@@ -1,20 +1,28 @@
-let v;
+let big, animals;
 
 function setup() {
     createCanvas(800, 600);
-    v = new Vehicle(width/2, height/2);
+    big = new Animal(width/3, height/2, 3);
+    animals = [];
+    for (i=0; i<5; i++) {
+        animals.push(new Animal(random(0, width), random(0, height), 5));
+    }
+    animals.push(big);
+    big.color = "black";
 }
+
+
 
 function draw() {
     background(255);
-
-    if (mouseIsPressed) {
-        v.flee(createVector(mouseX, mouseY), 5);
-        v.color = "blue";
-    } else {
-        v.seek(createVector(mouseX, mouseY), 5);
-        v.color = "red";
-    }
-    v.update();
-    v.show();
+    animals.forEach( a => {
+        if (a !== big) {
+            a.flee(big.pos);
+        } else {
+            a.hunt(animals);
+        }
+        a.avoidSides();
+        a.update();
+        a.show();
+    });
 }
