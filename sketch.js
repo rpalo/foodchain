@@ -15,6 +15,6 @@ function draw() {
     eater.hunt(foods);
     eater.update();
     eater.show();
-    eater.eat(foods,eater.r/2, 1);
+    eater.eat(foods,eater.r/2, 5);
     foods.forEach( f => f.show() );
 }

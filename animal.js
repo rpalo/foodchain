@@ -1,8 +1,10 @@
 // Animal extends Vehicle
 
-function Animal(x, y, speed) {
+function Animal(x, y) {
     Vehicle.call(this, x, y);
-    this.maxSpeed = speed;
+    this.decayRate = .999;
+    this.alive = true;
+    this.velLimit = 7;
 }
 
 Animal.prototype = Object.create(Vehicle.prototype);
@@ -10,6 +12,16 @@ Animal.prototype.constructor = Animal;
 
 // Additional Animal functionality
 
+Animal.prototype.update = function() {
+    if (!this.alive) return;
+    Vehicle.prototype.update.apply(this); // Super
+    if (this.r < 2) {
+        console.log("I died!");
+        this.alive = false;
+    }
+    this.r *= this.decayRate;
+    this.maxSpeed = map(this.r, 2, 40, this.velLimit, 2);
+}
 Animal.prototype.hunt = function(prey) {
     // prey is a list of other animals
     let closest = createVector(2000, 2000);
@@ -25,7 +37,7 @@ Animal.prototype.hunt = function(prey) {
             closest = target;
         }
     });
-    this.approach(closest.pos);
+    this.approach(closest.pos, 10);
 }
 
 Animal.prototype.eat = function(items, tolerance=this.r/2, grow=0) {
