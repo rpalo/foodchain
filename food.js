@@ -8,3 +8,7 @@ Food.prototype.show = function() {
     ellipse(this.pos.x, this.pos.y, 10, 10);
     pop();
 }
+
+Food.randomDrop = function(padding=15) {
+    return new Food(random(padding, width - padding), random(padding, height - padding));
+}

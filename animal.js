@@ -2,9 +2,9 @@
 
 function Animal(x, y) {
     Vehicle.call(this, x, y);
-    this.decayRate = .999;
+    this.decayRate = .998;
     this.alive = true;
-    this.velLimit = 7;
+    this.velLimit = 5;
 }
 
 Animal.prototype = Object.create(Vehicle.prototype);
@@ -37,7 +37,7 @@ Animal.prototype.hunt = function(prey) {
             closest = target;
         }
     });
-    this.approach(closest.pos, 10);
+    this.approach(closest.pos, 15);
 }
 
 Animal.prototype.eat = function(items, tolerance=this.r/2, grow=0) {
