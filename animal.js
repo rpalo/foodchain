@@ -25,5 +25,15 @@ Animal.prototype.hunt = function(prey) {
             closest = target;
         }
     });
-    this.seek(closest.pos);
+    this.approach(closest.pos);
+}
+
+Animal.prototype.eat = function(items, tolerance=this.r/2, grow=0) {
+    for (let i=items.length - 1; i >= 0; i--) {
+        if (items[i].pos.dist(this.pos) < tolerance) {
+            console.log("YUM!");
+            items.splice(i, 1); // Remove item from list.
+            this.r += grow;
+        }
+    }
 }

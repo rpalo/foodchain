@@ -1,28 +1,20 @@
-let big, animals;
+let eater, foods;
 
 function setup() {
     createCanvas(800, 600);
-    big = new Animal(width/3, height/2, 3);
-    animals = [];
-    for (i=0; i<5; i++) {
-        animals.push(new Animal(random(0, width), random(0, height), 5));
+    foods = [];
+    for (i=0;i<20;i++) {
+        foods.push(new Food(random(20, width-20), random(20, height-20)));
     }
-    animals.push(big);
-    big.color = "black";
+    eater = new Animal(width/2, height/2, 2);
 }
 
-
-
 function draw() {
+    if (foods.length === 0) return;
     background(255);
-    animals.forEach( a => {
-        if (a !== big) {
-            a.flee(big.pos);
-        } else {
-            a.hunt(animals);
-        }
-        a.avoidSides();
-        a.update();
-        a.show();
-    });
+    eater.hunt(foods);
+    eater.update();
+    eater.show();
+    eater.eat(foods,eater.r/2, 1);
+    foods.forEach( f => f.show() );
 }

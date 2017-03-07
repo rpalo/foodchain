@@ -34,9 +34,7 @@ Vehicle.prototype.update = function(edges="WRAP") {
 };
 
 Vehicle.prototype.applyForce = function(force) {
-    if (force.mag() > 50) debugger;
     this.acc.add(force);
-    console.log(force.mag());
 }
 
 Vehicle.prototype.seek = function(target, limit=.1) {
@@ -49,6 +47,16 @@ Vehicle.prototype.flee = function(source, limit=.1) {
     const error = p5.Vector.sub(source, this.pos);
     error.mult(-1);
     error.limit(limit);
+    this.applyForce(error);
+}
+
+Vehicle.prototype.approach = function(target, threshold=40, limit=.4) {
+    const error = p5.Vector.sub(target, this.pos);
+    if (error.mag() < threshold) {
+        error.limit(map(error.mag(), 0, threshold, 0, limit));
+    } else {
+        error.limit(limit);
+    }
     this.applyForce(error);
 }
 
